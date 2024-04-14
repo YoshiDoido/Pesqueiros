@@ -1,3 +1,3 @@
-#Projeto Os Pesqueiros
+<h1>Projeto Os Pesqueiros</h1>
 
-##Projeto que conecta Clientes com Donos de barcos prestadores de serviço
+<h2>Projeto que conecta Clientes com Donos de barcos prestadores de serviço</h2>
