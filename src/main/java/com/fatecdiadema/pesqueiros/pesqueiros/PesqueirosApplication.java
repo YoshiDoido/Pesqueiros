@@ -8,6 +8,7 @@ public class PesqueirosApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PesqueirosApplication.class, args);
+        System.out.println("Aplicação iniciada!");
     }
 
 }
