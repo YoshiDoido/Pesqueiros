@@ -6,10 +6,12 @@ import com.fatecdiadema.pesqueiros.pesqueiros.model.IClienteRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ClienteService implements IClienteService {
 
     Logger logger = LogManager.getLogger(this.getClass());
