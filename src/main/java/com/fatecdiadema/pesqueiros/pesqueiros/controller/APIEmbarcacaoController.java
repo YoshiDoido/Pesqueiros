@@ -37,10 +37,10 @@ public class APIEmbarcacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> cadastrarEmbarcacao(@RequestBody EmbarcacaoDTO e) {
+    public ResponseEntity<Object> cadastrarEmbarcacao(@RequestBody EmbarcacaoDTO emb) {
         logger.info(">>>>>> apicontroller cadastrar embarcacao iniciado ");
         try {
-            Optional<Embarcacao> embarcacao = embarcacaoService.cadastrar(e);
+            Optional<Embarcacao> embarcacao = embarcacaoService.cadastrar(emb);
             return ResponseEntity.status(HttpStatus.CREATED).body(embarcacao.get());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
