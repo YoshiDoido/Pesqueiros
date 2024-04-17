@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EmbarcacaoService {
+public class EmbarcacaoService  implements IEmbarcacaoService{
 
     Logger loger = LogManager.getLogger(this.getClass());
 
