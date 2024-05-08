@@ -1,6 +1,8 @@
 package com.fatecdiadema.pesqueiros.pesqueiros.controller;
 
 import com.fatecdiadema.pesqueiros.pesqueiros.model.Proprietario;
+import com.fatecdiadema.pesqueiros.pesqueiros.model.ProprietarioDTO;
+import com.fatecdiadema.pesqueiros.pesqueiros.service.IProprietarioService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
