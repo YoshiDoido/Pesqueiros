@@ -1,7 +1,6 @@
 package com.fatecdiadema.pesqueiros.pesqueiros.service;
 
 import com.fatecdiadema.pesqueiros.pesqueiros.model.Cliente;
-import com.fatecdiadema.pesqueiros.pesqueiros.model.ClienteDTO;
 import com.fatecdiadema.pesqueiros.pesqueiros.model.IClienteRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,16 +19,15 @@ public class ClienteService implements IClienteService {
     IClienteRepository clienteRepository;
 
     @Override
-    public Optional<Cliente> cadastrar(ClienteDTO c) {
+    public Optional<Cliente> cadastrar(Cliente c) {
         logger.info(">>>>>> servico cadastrar cliente iniciado ");
-        Cliente cliente = dtoParaCliente(c);
-        return Optional.ofNullable(clienteRepository.save(cliente));
+        return Optional.ofNullable(clienteRepository.save(c));
     }
 
     @Override
-    public Optional<ClienteDTO> consultaPorId(Long id) {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+    public Optional<Cliente> consultaPorId(Long id) {
+        logger.info(">>>>>> servico consulta por id chamado");
+        return clienteRepository.findById(id);
     }
 
     @Override
@@ -39,18 +37,20 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public ClienteDTO atualizar(Long id, ClienteDTO cliente) {
-        // TODO Auto-generated method stub
-        return null;
+    public Optional<Cliente> atualizar(Long id, Cliente cliente) {
+        logger.info(">>>>>> servico atualizar informacoes de cliente chamado");
+        Cliente clienteAtualizado = clienteRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não cadastrado"));
+        clienteAtualizado.setNome(cliente.getNome());
+        clienteAtualizado.setCpf(cliente.getCpf());
+        clienteAtualizado.setEmail(cliente.getEmail());
+        clienteAtualizado.setSenha(cliente.getSenha());
+        clienteAtualizado.setNrTelefone(cliente.getNrTelefone());
+        return Optional.ofNullable(clienteRepository.save(clienteAtualizado));
     }
 
     @Override
     public void excluir(Long id) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public Cliente dtoParaCliente(ClienteDTO c) {
-        return new Cliente(c.nome(), c.cpf(),c.email(), c.senha(),c.nrTelefone());
+        clienteRepository.deleteById(id);
     }
 }

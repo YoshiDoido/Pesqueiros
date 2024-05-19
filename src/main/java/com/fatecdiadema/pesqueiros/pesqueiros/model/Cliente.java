@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.Objects;
+
 
 /* Classe que contém o Cliente da Aplicação */
 @Entity
@@ -97,5 +99,29 @@ public class Cliente {
         } else {
             this.nrTelefone = nrTelefone;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, cpf, email, senha, nrTelefone);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Cliente other = (Cliente) obj;
+        return Objects.equals(nome, other.nome) && Objects.equals(cpf, other.cpf) && Objects.equals(email, other.email)
+                && Objects.equals(senha, other.senha) && Objects.equals(nrTelefone, other.nrTelefone);
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente [cpf=" + cpf + ", email=" + email + ", id=" + id + ", nome=" + nome + ", nrTelefone="
+                + nrTelefone + ", senha=" + senha + "]";
     }
 }
