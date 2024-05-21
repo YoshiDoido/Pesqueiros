@@ -122,6 +122,6 @@ public class Cliente {
     @Override
     public String toString() {
         return "Cliente [cpf=" + cpf + ", email=" + email + ", id=" + id + ", nome=" + nome + ", nrTelefone="
-                + nrTelefone + ", senha=" + senha + "]";
+                + nrTelefone + "]";
     }
 }
