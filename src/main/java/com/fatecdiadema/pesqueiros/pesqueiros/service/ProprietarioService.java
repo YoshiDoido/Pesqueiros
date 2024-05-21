@@ -1,7 +1,6 @@
 package com.fatecdiadema.pesqueiros.pesqueiros.service;
 
 import com.fatecdiadema.pesqueiros.pesqueiros.model.Proprietario;
-import com.fatecdiadema.pesqueiros.pesqueiros.model.ProprietarioDTO;
 import com.fatecdiadema.pesqueiros.pesqueiros.model.IProprietarioRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,22 +13,21 @@ import java.util.Optional;
 @Service
 public class ProprietarioService implements IProprietarioService{
 
-    Logger loger = LogManager.getLogger(this.getClass());
+    Logger logger = LogManager.getLogger(this.getClass());
 
     @Autowired
     IProprietarioRepository proprietarioRepository;
 
     @Override
-    public Optional<Proprietario> cadastrar(ProprietarioDTO p) {
-        loger.info(">>>>>> servico cadastrar Proprietario iniciado ");
-        Proprietario Proprietario = dtoParaProprietario(p);
-        return Optional.ofNullable(proprietarioRepository.save(Proprietario));
+    public Optional<Proprietario> cadastrar(Proprietario p) {
+        logger.info(">>>>>> servico cadastrar Proprietario iniciado ");
+        return Optional.ofNullable(proprietarioRepository.save(p));
     }
 
     @Override
-    public Optional<ProprietarioDTO> consultaPorId(Long id) {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+    public Optional<Proprietario> consultaPorId(Long id) {
+        logger.info(">>>>>> servico consulta por id chamado");
+        return proprietarioRepository.findById(id);
     }
 
     @Override
@@ -40,17 +38,21 @@ public class ProprietarioService implements IProprietarioService{
 
 
     @Override
-    public ProprietarioDTO atualizar(Long id, ProprietarioDTO Proprietario) {
-        // TODO Auto-generated method stub
-        return null;
+    public Optional<Proprietario> atualizar(Long id, Proprietario Proprietario) {
+        logger.info(">>>>>> servico atualizar informacoes de Proprietario chamado");
+        Proprietario proprietarioAtualizado = proprietarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Proprietario não cadastrado"));
+        proprietarioAtualizado.setNome(Proprietario.getNome());
+        proprietarioAtualizado.setCpf(Proprietario.getCpf());
+        proprietarioAtualizado.setEmail(Proprietario.getEmail());
+        proprietarioAtualizado.setSenha(Proprietario.getSenha());
+        proprietarioAtualizado.setNrTelefone(Proprietario.getNrTelefone());
+        return Optional.ofNullable(proprietarioRepository.save(proprietarioAtualizado));
     }
 
     @Override
     public void excluir(Long id) {
-        // TODO Auto-generated method stub
+        proprietarioRepository.deleteById(id);
     }
 
-    public Proprietario dtoParaProprietario(ProprietarioDTO p) {
-        return new Proprietario(null, p.nome(), p.cpf(), p.email(), p.senha(), p.nrTelefone());
-    }
 }
