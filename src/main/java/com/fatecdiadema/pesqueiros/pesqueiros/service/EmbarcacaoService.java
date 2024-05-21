@@ -1,7 +1,6 @@
 package com.fatecdiadema.pesqueiros.pesqueiros.service;
 
 import com.fatecdiadema.pesqueiros.pesqueiros.model.Embarcacao;
-import com.fatecdiadema.pesqueiros.pesqueiros.model.EmbarcacaoDTO;
 import com.fatecdiadema.pesqueiros.pesqueiros.model.IEmbarcacaoRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,22 +13,21 @@ import java.util.Optional;
 @Service
 public class EmbarcacaoService  implements IEmbarcacaoService{
 
-    Logger loger = LogManager.getLogger(this.getClass());
+    Logger logger = LogManager.getLogger(this.getClass());
 
     @Autowired
     IEmbarcacaoRepository embarcacaoRepository;
 
     @Override
-    public Optional<Embarcacao> cadastrar(EmbarcacaoDTO e) {
-        loger.info(">>>>>> servico cadastrar embarcacao iniciado ");
-        Embarcacao embarcacao = dtoParaEmbarcacao(e);
-        return Optional.ofNullable(embarcacaoRepository.save(embarcacao));
+    public Optional<Embarcacao> cadastrar(Embarcacao c) {
+        logger.info(">>>>>> servico cadastrar Embarcacao iniciado ");
+        return Optional.ofNullable(embarcacaoRepository.save(c));
     }
 
     @Override
-    public Optional<EmbarcacaoDTO> consultaPorId(Long id) {
-        // TODO Auto-generated method stub
-        return Optional.empty();
+    public Optional<Embarcacao> consultaPorId(Long id) {
+        logger.info(">>>>>> servico consulta por id chamado");
+        return embarcacaoRepository.findById(id);
     }
 
     @Override
@@ -38,19 +36,22 @@ public class EmbarcacaoService  implements IEmbarcacaoService{
         return embarcacaoRepository.findAll();
     }
 
-
     @Override
-    public EmbarcacaoDTO atualizar(Long id, EmbarcacaoDTO embarcacao) {
-        // TODO Auto-generated method stub
-        return null;
+    public Optional<Embarcacao> atualizar(Long id, Embarcacao embarcacao) {
+        logger.info(">>>>>> servico atualizar informacoes de Embarcacao chamado");
+        Embarcacao embarcacaoAtualizado = embarcacaoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Embarcacao não cadastrada"));
+        embarcacaoAtualizado.setProprietario(embarcacao.getProprietario());
+        embarcacaoAtualizado.setNomeEmbarcacao(embarcacao.getNomeEmbarcacao());
+        embarcacaoAtualizado.setArrais(embarcacao.getArrais());
+        embarcacaoAtualizado.setImagem(embarcacao.getImagem());
+        embarcacaoAtualizado.setCapacidade(embarcacao.getCapacidade());
+
+        return Optional.ofNullable(embarcacaoRepository.save(embarcacaoAtualizado));
     }
 
     @Override
     public void excluir(Long id) {
-        // TODO Auto-generated method stub
-    }
-
-    public Embarcacao dtoParaEmbarcacao(EmbarcacaoDTO e) {
-        return new Embarcacao(e.proprietario(), e.nomeEmbarcacao(), e.arrais(), e.imagem(), e.capacidade());
+        embarcacaoRepository.deleteById(id);
     }
 }

@@ -1,9 +1,8 @@
 package com.fatecdiadema.pesqueiros.pesqueiros.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Objects;
 
 @Entity
 public class Embarcacao {
@@ -97,4 +96,29 @@ public class Embarcacao {
         }
     }
 
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(proprietario, nomeEmbarcacao, arrais, imagem, capacidade);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Embarcacao other = (Embarcacao) obj;
+        return Objects.equals(proprietario, other.proprietario) && Objects.equals(nomeEmbarcacao, other.nomeEmbarcacao)
+                && Objects.equals(arrais, other.arrais) && Objects.equals(imagem, other.imagem)
+                && Objects.equals(capacidade, other.capacidade);
+    }
+
+    @Override
+    public String toString() {
+        return "Embarcacao [arrais=" + arrais + ", capacidade=" + capacidade + ", id=" + id + ", imagem=" + imagem
+                + ", nomeEmbarcacao=" + nomeEmbarcacao + ", proprietario=" + proprietario + "]";
+    }
 }
