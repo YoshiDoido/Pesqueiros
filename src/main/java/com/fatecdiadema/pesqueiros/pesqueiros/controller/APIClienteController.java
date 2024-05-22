@@ -14,6 +14,8 @@ import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
+// Rota para o cliente:
+// localhost:8080/pesqueiros/clientes
 @RequestMapping("/pesqueiros/clientes")
 public class APIClienteController {
 
@@ -79,7 +81,7 @@ public class APIClienteController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> excluirProduto(@PathVariable Long id) {
+    public ResponseEntity<Object> excluirCliente(@PathVariable Long id) {
         logger.info(">>>>>> apicontroller excluir por id chamado");
         Optional<Cliente> cliente = clienteService.consultaPorId(id);
         if (cliente.isEmpty()) {

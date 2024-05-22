@@ -60,7 +60,12 @@ public class Cliente {
     public void setCpf(String cpf) {
         if (cpf == null || cpf.isBlank()) {
             throw new IllegalArgumentException("O CPF não deve estar em branco");
-        } else {
+        }
+        else if (cpf == null || !isCpfValido(cpf)) {
+            throw new IllegalArgumentException("O CPF não é válido");
+
+        }
+        else {
             this.cpf = cpf;
         }
     }
@@ -98,6 +103,44 @@ public class Cliente {
             throw new IllegalArgumentException("O número de telefone não deve estar em branco");
         } else {
             this.nrTelefone = nrTelefone;
+        }
+    }
+
+    private boolean isCpfValido(String cpf) {
+        // Remove Caracteres Não Numéricos
+        cpf = cpf.replaceAll("\\D", "");
+
+        // Verifica se o tamanho do cpf é 11 e se não é uma sequência de números iguais
+        if (cpf.length() != 11 || cpf.matches(("(\\d)\\1{10}"))) {
+            return false;
+        }
+
+        try {
+
+            int[] digits = new int[11];
+            for (int i = 0; i < 11; i++) {
+                digits[i] = Integer.parseInt(cpf.substring(i, i + 1));
+            }
+
+            int sum1 = 0;
+            int sum2 = 0;
+            for (int i = 0; i < 9; i++) {
+                sum1 += digits[i] * (10 - i);
+                sum2 += digits[i] * (11 - i);
+            }
+
+            sum1 = (sum1 * 10) % 11;
+            if (sum1 == 10)
+                sum1 = 0;
+            sum2 += sum1 * 2;
+            sum2 = (sum2 * 10) % 11;
+            if (sum2 == 10)
+                sum2 = 0;
+
+            return (sum1 == digits[9] && sum2 == digits[10]);
+
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 

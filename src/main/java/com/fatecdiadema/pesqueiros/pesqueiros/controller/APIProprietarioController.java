@@ -14,6 +14,8 @@ import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
+// Rota para o proprietario:
+// localhost:8080/pesqueiros/proprietarios
 @RequestMapping("/pesqueiros/proprietarios")
 public class APIProprietarioController {
 
@@ -68,7 +70,7 @@ public class APIProprietarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> atualizarCliente(@PathVariable("id") Long proprietarioId, @RequestBody Proprietario proprietarioAtualizado) {
+    public ResponseEntity<Object> atualizarProprietario(@PathVariable("id") Long proprietarioId, @RequestBody Proprietario proprietarioAtualizado) {
         logger.info(">>>>>> apicontroller atualizar informacoes de cliente iniciado ");
         try {
             Proprietario proprietario = proprietarioService.atualizar(proprietarioId, proprietarioAtualizado).get();

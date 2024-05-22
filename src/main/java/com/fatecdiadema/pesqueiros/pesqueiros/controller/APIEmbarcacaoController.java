@@ -15,6 +15,8 @@ import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
+// Rota para a embarcação:
+// localhost:8080/pesqueiros/embarcacoes
 @RequestMapping("/pesqueiros/embarcacoes")
 public class APIEmbarcacaoController {
 
@@ -45,7 +47,7 @@ public class APIEmbarcacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> cadastrarCliente(@RequestBody EmbarcacaoDTO emb) {
+    public ResponseEntity<Object> cadastrarEmbarcacao(@RequestBody EmbarcacaoDTO emb) {
         logger.info(">>>>>> apicontroller cadastrar embarcacao iniciado ");
         try {
 
