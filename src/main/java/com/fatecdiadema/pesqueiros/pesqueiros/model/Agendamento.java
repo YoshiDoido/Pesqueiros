@@ -6,6 +6,9 @@ import com.fatecdiadema.pesqueiros.pesqueiros.model.Proprietario;
 import com.fatecdiadema.pesqueiros.pesqueiros.model.Embarcacao;
 import com.fatecdiadema.pesqueiros.pesqueiros.model.Cliente;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -15,8 +18,9 @@ public class Agendamento {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String data;
-    private String hora;
+    private LocalTime hora;
     private String local;
+    private String descricao;
     @ManyToMany
     private List<Proprietario> proprietario;
     @ManyToMany
@@ -24,11 +28,15 @@ public class Agendamento {
     @ManyToMany
     private List<Cliente> cliente;
 
-    public Agendamento(Long id, String data, String hora, String local, List<Embarcacao> embarcacao, List<Cliente> cliente, List<Proprietario> proprietario) {
+    // Constante responsável por formatar a data para o formato Dia/Mês/Ano (dd/MM/yyyy)
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    public Agendamento(Long id, String data, LocalTime hora, String local, String descricao ,List<Embarcacao> embarcacao, List<Cliente> cliente, List<Proprietario> proprietario) {
         this.id = id;
         this.data = data;
         this.hora = hora;
         this.local = local;
+        this.descricao = descricao;
         this.embarcacao = embarcacao;
         this.cliente = cliente;
         this.proprietario = proprietario;
@@ -50,16 +58,17 @@ public class Agendamento {
         if (data == null || data.isBlank()) {
             throw new IllegalArgumentException("A data não deve estar em branco");
         } else {
+            LocalDate.parse(data, formatter);
             this.data = data;
         }
     }
 
-    public String getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(String hora) {
-        if (hora == null || hora.isBlank()) {
+    public void setHora(LocalTime hora) {
+        if (hora == null) {
             throw new IllegalArgumentException("A hora não deve estar em branco");
         } else {
             this.hora = hora;
@@ -75,6 +84,18 @@ public class Agendamento {
             throw new IllegalArgumentException("O local não deve estar em branco");
         } else {
             this.local = local;
+        }
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        if (descricao == null || descricao.isBlank()) {
+            throw new IllegalArgumentException("A descrição não deve estar em branco");
+        } else {
+            this.descricao = descricao;
         }
     }
 
