@@ -16,4 +16,8 @@ public interface IClienteService {
     public Optional<Cliente> atualizar(Long id, Cliente cliente);
 
     public void excluir(Long id);
+
+    public Optional<Cliente> registrar(Cliente cliente);
+
+    public Optional<Cliente> login(String email, String senha);
 }

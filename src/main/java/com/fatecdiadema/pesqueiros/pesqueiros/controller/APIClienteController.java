@@ -93,6 +93,33 @@ public class APIClienteController {
         }
     }
 
+    @PostMapping("/registrar")
+    public ResponseEntity<Object> registrar(@RequestBody ClienteDTO c) {
+        logger.info(">>>>>> apicontroller registrar cliente iniciado ");
+        Cliente clienteNovo = new Cliente();
+        clienteNovo.setNome(c.nome());
+        clienteNovo.setCpf(c.cpf());
+        clienteNovo.setEmail(c.email());
+        clienteNovo.setSenha(c.senha());
+        clienteNovo.setNrTelefone(c.nrTelefone());
+        Optional<Cliente> cliente = clienteService.registrar(clienteNovo);
+        if (cliente.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(cliente.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao registrar cliente");
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Object> login(@RequestBody ClienteDTO c) {
+        logger.info(">>>>>> apicontroller login cliente iniciado ");
+        Optional<Cliente> cliente = clienteService.login(c.email(), c.senha());
+        if (cliente.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(cliente.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email or password incorrect");
+        }
+    }
 
 
 }

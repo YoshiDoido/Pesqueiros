@@ -62,4 +62,22 @@ public class ClienteService implements IClienteService {
     public void excluir(Long id) {
         clienteRepository.deleteById(id);
     }
+
+    // Registro do cliente
+    public Optional<Cliente> registrar(Cliente cliente) {
+        logger.info(">>>>>> servico registrar cliente iniciado ");
+        return Optional.ofNullable(clienteRepository.save(cliente));
+    }
+
+
+    // Login do Cliente - somente email e senha para validar
+    public Optional<Cliente> login(String email, String senha) {
+        logger.info(">>>>>> servico login cliente iniciado ");
+        Optional<Cliente> cliente = clienteRepository.findByEmail(email);
+        if (cliente.isPresent() && cliente.get().getSenha().equals(senha)) {
+            return cliente;
+        }
+        return Optional.empty();
+
+    }
 }
